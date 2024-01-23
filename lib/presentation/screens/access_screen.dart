@@ -8,7 +8,6 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:go_router/go_router.dart';
 
 class AccessScreen extends StatefulWidget {
-
   static const name = 'access-screen';
   const AccessScreen({super.key});
 
@@ -17,7 +16,6 @@ class AccessScreen extends StatefulWidget {
 }
 
 class _AccessScreenState extends State<AccessScreen> {
-
   late Timer _timer;
 
   @override
@@ -30,28 +28,38 @@ class _AccessScreenState extends State<AccessScreen> {
         barrierDismissible: false,
         builder: (BuildContext context) {
           return const AlertDialog(
-            content:  SizedBox(
+            content: SizedBox(
               width: 30,
               height: 210,
               child: Column(
-                  children: [
-                    Icon(Icons.check_circle, color: Colors.greenAccent, size: 80),
-                    SizedBox(height: 20,),
-                    Text('¡Bienvenido!', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-                    SizedBox(height: 10,),
-                    Text('Escanee el código de barras de la cédula del personal', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
-                    SizedBox(height: 10,),
-                  ],
-                ),
+                children: [
+                  Icon(Icons.check_circle, color: Colors.greenAccent, size: 80),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    '¡Bienvenido!',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    'Escanee el código de barras de la cédula del personal',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                ],
+              ),
             ),
-
-            
           );
         },
       );
     });
 
-    _timer = Timer(const Duration(seconds: 2) , () {
+    _timer = Timer(const Duration(seconds: 2), () {
       Navigator.of(context).pop();
     });
   }
@@ -76,7 +84,6 @@ class _AccessScreenState extends State<AccessScreen> {
     }
 
     if (!mounted) return;
-    
   }
 
   @override
@@ -86,13 +93,14 @@ class _AccessScreenState extends State<AccessScreen> {
         automaticallyImplyLeading: false,
         title: const Text('Control de acceso EMLAZE ERP'),
         backgroundColor: const Color.fromARGB(255, 51, 122, 183),
-        titleTextStyle: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+        titleTextStyle: const TextStyle(
+            color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
         actions: [
           IconButton(
             onPressed: () {
               AutenticateDatosurce().destroySession();
               context.go('/home/0');
-            }, 
+            },
             icon: const Icon(Icons.exit_to_app_rounded),
             color: Colors.white,
           )
@@ -100,77 +108,99 @@ class _AccessScreenState extends State<AccessScreen> {
       ),
       body: Container(
         decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/images/fondo.png'), 
-              fit: BoxFit.fill
-            ),
+          image: DecorationImage(
+              image: AssetImage('assets/images/fondo.png'), fit: BoxFit.fill),
         ),
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-                Container(
-                  width: 350,
-                  height: 305,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    color: Colors.white
+            child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              width: 350,
+              height: 305,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12), color: Colors.white),
+              child: Column(
+                children: [
+                  ClipRRect(
+                    child: Image.asset(
+                      'assets/images/logo.png',
+                      fit: BoxFit.contain,
+                      width: 300,
+                    ),
                   ),
-                  child: Column(
-                    children: [
-                      ClipRRect(
-                        child: Image.asset('assets/images/logo.png', 
-                        fit: BoxFit.contain, width: 300,
-                        ),
-                      ),
-                      const SizedBox(height: 20,),
-                      const Text('Indique el tipo de registro', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),),
-                      const SizedBox(height: 8,),
-                      ElevatedButton(
-                        onPressed: () {
-                          int value = 1;
-                          scanCode(value);
-                          
-                        },
-                        style: TextButton.styleFrom(
-                          backgroundColor: const Color.fromARGB(255, 51, 122, 183),
-                          padding: const EdgeInsets.only(right: 110, left: 110)
-                        ), 
-                        child: const Text('Entrada', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),),
-                        
-                      ),
-                      const SizedBox(height: 3,),
-                      ElevatedButton(
-                        onPressed: () {},
-                        style: TextButton.styleFrom(
-                          backgroundColor: const Color.fromARGB(255, 51, 122, 183),
-                          padding: const EdgeInsets.only(right: 102, left: 102)
-                        ), 
-                        child: const Text('Descanso', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),),
-                        
-                      ),
-                      const SizedBox(height: 3,),
-                      ElevatedButton(
-                        onPressed: () {},
-                        style: TextButton.styleFrom(
-                          backgroundColor: const Color.fromARGB(255, 51, 122, 183),
-                          padding: const EdgeInsets.only(right: 115, left: 115)
-                        ), 
-                        child: const Text('Salida', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),),
-                        
-                      ),
-                    ],
+                  const SizedBox(
+                    height: 20,
                   ),
-                ),
-                const SizedBox(height: 20,),
-                const FooterView(),
-            ],
-          )
-        ),
+                  const Text(
+                    'Indique el tipo de registro',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      int value = 1;
+                      scanCode(value);
+                    },
+                    style: TextButton.styleFrom(
+                        backgroundColor:
+                            const Color.fromARGB(255, 51, 122, 183),
+                        padding: const EdgeInsets.only(right: 110, left: 110)),
+                    child: const Text(
+                      'Entrada',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 3,
+                  ),
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: TextButton.styleFrom(
+                        backgroundColor:
+                            const Color.fromARGB(255, 51, 122, 183),
+                        padding: const EdgeInsets.only(right: 102, left: 102)),
+                    child: const Text(
+                      'Descanso',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 3,
+                  ),
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: TextButton.styleFrom(
+                        backgroundColor:
+                            const Color.fromARGB(255, 51, 122, 183),
+                        padding: const EdgeInsets.only(right: 115, left: 115)),
+                    child: const Text(
+                      'Salida',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            const FooterView(),
+          ],
+        )),
       ),
     );
   }
 }
-
-
