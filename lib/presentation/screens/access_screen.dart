@@ -1,10 +1,12 @@
 import 'dart:async';
 
+import 'package:barcode_scanner/barcode_scanning_data.dart';
+import 'package:barcode_scanner/json/common_data.dart';
+import 'package:barcode_scanner/scanbot_barcode_sdk.dart';
+import 'package:barcode_scanner/scanbot_sdk_models.dart';
 import 'package:control_acceso_emlaze/domain/datasources/autenticare_datasource.dart';
 import 'package:control_acceso_emlaze/presentation/shared/footer_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:go_router/go_router.dart';
 
 class AccessScreen extends StatefulWidget {
@@ -12,11 +14,28 @@ class AccessScreen extends StatefulWidget {
   const AccessScreen({super.key});
 
   @override
-  State<AccessScreen> createState() => _AccessScreenState();
+  _AccessScreenState createState() {
+    var config = ScanbotSdkConfig(loggingEnabled: true);
+    ScanbotBarcodeSdk.initScanbotSdk(config);
+    return _AccessScreenState();
+  }
 }
 
 class _AccessScreenState extends State<AccessScreen> {
   late Timer _timer;
+
+  // final _flashOnController = TextEditingController(text: 'Flash on');
+  // final _flashOffController = TextEditingController(text: 'Flash off');
+  // final _cancelController = TextEditingController(text: 'Cancel');
+
+  // final _aspectTolerance = 5.00;
+  // final _selectedCamera = -1;
+  // final _useAutoFocus = true;
+  // final _autoEnableFlash = false;
+  // static final _possibleFormats = BarcodeFormat.values.toList()
+  //   ..removeWhere((e) => e == BarcodeFormat.unknown);
+
+  // List<BarcodeFormat> selectedFormats = [..._possibleFormats];
 
   @override
   void initState() {
@@ -71,19 +90,15 @@ class _AccessScreenState extends State<AccessScreen> {
   }
 
   Future scanCode(int value) async {
-    String barcodeScanRes;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    try {
-      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-          '#ff6666', 'Cancel', true, ScanMode.BARCODE);
-      print("Aqui esta la respuesta " + barcodeScanRes);
-      //Future<dynamic> route = AutenticateDatosurce(code: barcodeScanRes).autenticate();
-      //return route;
-    } on PlatformException {
-      barcodeScanRes = 'Failed to get platform version.';
-    }
-
-    if (!mounted) return;
+    var config = BarcodeScannerConfiguration(
+      barcodeFormats: [BarcodeFormat.PDF_417],
+      topBarBackgroundColor: Colors.blueAccent,
+      finderTextHint: "Please align a barcode in the frame to scan it.",
+      cancelButtonTitle: "Cancel",
+      flashEnabled: true,
+    );
+    var result = await ScanbotBarcodeSdk.startBarcodeScanner(config);
+    print("Aqui ${result.barcodeItems.map((e) => e.formattedResult)}");
   }
 
   @override
